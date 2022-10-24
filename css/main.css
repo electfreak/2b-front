@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  text-decoration: none;
+  appearance: none;
+  border: 0;
+  font-family: inherit;
+  background: transparent;
+  font-size: inherit;
+  color: inherit;
+}
+
+a {
+  color: white;
+}
+
+header {
+  padding: 15px 0;
+}
+
+body {
+  background: #28293D;
+  max-width: 1300px;
+  font-family: 'PT Mono', monospace;
+  font-family: 'Source Code Pro', monospace;
+  color: white;
+  margin: auto;
+}
+
+.container {
+  max-width: 1300px;
+  margin: auto;
+  margin: 0 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.profile {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  border: 1px solid white;
+  padding: 5px 10px;
+  font-weight: 700;
+  transition: .3s;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.btn:hover {
+  background: white;
+  color: #28293D;
+}
+
+.posts {
+  flex-grow: 2;
+  max-width: 58.3%;
+}
+
+.feed {
+  flex-grow: 1;
+}
+
+.post {
+  background: white;
+  padding: 10px;
+  color: black;
+}
+
+.message {
+  border: 2px solid white;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+footer {
+  margin-top: auto;
+  margin-bottom: 15px;
+}
