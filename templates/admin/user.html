@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2b</title>
 
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../../static/css/main.css">
 </head>
 
 <body>
@@ -28,17 +29,23 @@
       </section>
 
       <section class="admin">
-        <form action="">
-          <label for="text">Text</label> <br>
-          <input name="text" type="text"> <br>
+        <form action="/admin/user" method="post">
+          <label for="name">Name</label> <br>
+          <input name="name" type="text"> <br>
+
+          <label for="photo">Photo</label> <br>
+          <input name="photo" type="text"> <br>
           
-          <input type="submit" value="Submit">
+          <label for="bio">Bio</label> <br>
+          <input name="bio" type="text"> <br>
+          
+          <input type="submit" id="submit" value="Submit">
         </form>
       </section>
     </main>
 
     <footer>
-      © 2Buz, 2022 <a href="./impressum.html">Impressum</a>
+      © 2Buz, 2022 <a href="./imprint.html">Impressum</a>
     </footer>
   </div>
 </body>
