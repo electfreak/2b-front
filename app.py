@@ -6,10 +6,12 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # configuring MySQL for the web application
-app.config['MYSQL_DATABASE_USER'] = 'group25'  # default user of MySQL to be replaced with appropriate username
+# default user of MySQL to be replaced with appropriate username
+app.config['MYSQL_DATABASE_USER'] = 'group25'
 app.config[
     'MYSQL_DATABASE_PASSWORD'] = 'buzzers228'  # default passwrod of MySQL to be replaced with appropriate password
-app.config['MYSQL_DATABASE_DB'] = 'group25'  # Database name to be replaced with appropriate database name
+# Database name to be replaced with appropriate database name
+app.config['MYSQL_DATABASE_DB'] = 'group25'
 app.config[
     'MYSQL_DATABASE_HOST'] = 'localhost'  # default database host of MySQL to be replaced with appropriate database host
 # initialise mySQL
@@ -38,11 +40,13 @@ def admin_feedback():
 def admin_user():
     return render_template('admin/user.html')
 
+
 @app.route("/admin/users", methods=['GET'])
 def get_users():
     cursor.execute("select uid from Users")
     conn.commit()
     return {'uids': cursor.fetchall()}
+
 
 @app.route("/admin/user", methods=['POST'])
 def add_user():
@@ -73,6 +77,20 @@ def add_message():
     return render_template('admin/message.html')
 
 
+@app.route("/admin/party", methods=['GET'])
+def admin_party():
+    return render_template('admin/party.html')
+
+
+@app.route("/admin/party", methods=['POST'])
+def add_party():
+    date = request.form['date']
+    time = request.form['time']
+    cursor.execute(
+        "INSERT INTO Parties (date) VALUES (%s)",
+        (f'{date} {time}'))
+    conn.commit()
+    return render_template('admin/party.html')
 
 
 if __name__ == "__main__":
