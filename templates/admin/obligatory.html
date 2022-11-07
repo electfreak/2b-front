@@ -4,42 +4,38 @@
 
 {% block content %}
 
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="/admin/obligatory" method="post">
-          <label for="tid">Task ID</label> <br>
-          <select name="tid" id="tid"></select> <br>
-          
-          <input type="submit" value="Submit">
-          <script>
-            var tid_select = document.getElementById("tid");
+  <section class="admin">
+    <form action="/admin/obligatory" method="post">
+      <label for="tid">Task ID</label> <br>
+      <select name="tid" id="tid"></select> <br>
 
-            tid_select.onfocus = function()  {
-                fetch('/admin/tasks').then(function(response) {
-                    response.json().then(function(data) {
-                        var optionHTML = '';
-
-                        for (var option of data.options) {
-                            optionHTML += '<option value="' + option + '">' + option + '</option>';
-                        }
-
-                        tid_select.innerHTML = optionHTML;
-                    })
-
-                });
-            }
-          </script>
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+      <input type="submit" value="Submit">
+      <script>
+        fetch('/admin/tasks').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("tid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}

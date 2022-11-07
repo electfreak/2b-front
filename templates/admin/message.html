@@ -36,10 +36,10 @@
           response.json().then((data) => {
             document.getElementById("uid")
               .append(
-                ...data.options.map(uid => {
-                  let opt = document.createElement('option');
-                  opt.value = opt.innerHTML = uid.toString();
-                  return opt;
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
                 })
               );
           });
