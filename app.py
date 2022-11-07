@@ -94,6 +94,40 @@ def get_tasks():
     conn.commit()
     return {'options': cursor.fetchall()}
 
+@app.route("/admin/urgents", methods=['GET'])
+def get_urgents():
+    cursor.execute("select utid from UrgentTasks")
+    conn.commit()
+    return {'options': cursor.fetchall()}
+
+
+@app.route("/admin/obligatories", methods=['GET'])
+def get_obligatories():
+    cursor.execute("select otid from ObligatoryTasks")
+    conn.commit()
+    return {'options': cursor.fetchall()}
+
+
+@app.route("/admin/announcements", methods=['GET'])
+def get_announcements():
+    cursor.execute("select paid from PartyAnnouncements")
+    conn.commit()
+    return {'options': cursor.fetchall()}
+
+
+@app.route("/admin/notifications", methods=['GET'])
+def get_notifications():
+    cursor.execute("select pnid from PartyNotifications")
+    conn.commit()
+    return {'options': cursor.fetchall()}
+
+
+@app.route("/admin/feedbacks", methods=['GET'])
+def get_feedbacks():
+    cursor.execute("select pnid from Feedbacks")
+    conn.commit()
+    return {'options': cursor.fetchall()}
+
 
 @app.route("/admin/user", methods=['POST'])
 def add_user():
