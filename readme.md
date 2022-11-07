@@ -7,9 +7,22 @@ pip install -r requirements.txt
 ### Installation
 Platform-specific.
 ### Set-up
-Create a database `group25`
+Enter mysql console
+```bash
+mysql
+```
+
+Create a database `group25`.
+```
+CREATE DATABASE group25;
+```
+
 
 Create a user `group25` with a password `buzzers228` and give them access to the created database.
+
+```
+CREATE USER 'group25'@'localhost' IDENTIFIED BY 'buzzers228';
+```
 
 Create tables using `schema.sql` from the team repo.
 
