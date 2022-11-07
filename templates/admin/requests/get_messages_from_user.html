@@ -1,34 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}Message{% endblock %}
+{% block title %}Messages from User{% endblock %}
 
 {% block content %}
     <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
-
-        <button class="btn">
-          Post party
-        </button>
-      </section>
-
       <section class="admin">
-        <form action="/admin/message" method="post">
-          
-          <label for="text">Text</label> <br>
-          <input name="text" type="text" required> <br>
-
+        {% if user is defined %}
+        <h1>Messages from user “{{ user }}”</h1>
+        {% else %}
+        <h1>No data yet — run a request!</h1> 
+        {% endif %}
+        
+        {% if messages is defined %}
+        <table>
+          <tr>
+            <th>Text</th>
+            <th>Datetime</th>
+          </tr>
+          {% for message in messages %}
+          <tr>
+            {% for field in ('text', 'time') %}
+            <td><a href="/message?mid={{ message['mid'] }}">{{ message[field] }}</a></td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </section>
+      <section class="admin">
+        <form action="/admin/requests/get_messages_from_user" method="post">
           <label for="uid">User ID</label> <br>
-          <select name="uid" id="uid" required></select> <br>
-
-          <label for="date">Date</label> <br>
-          <input name="date" type="date" required> <br>
-
-          <label for="time">Time</label> <br>
-          <input name="time" type="time" required> <br>
-          
+          <select name="uid" id="uid"></select> <br>
+  
           <input type="submit" value="Submit">
 
           <script>

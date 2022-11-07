@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Search Users{% endblock %}
+
+{% block content %}
+
+    <main>
+      <section class="admin">
+        {% if term is defined %}
+        <h1>Users which name contains “{{ term }}”</h1>
+        {% else %}
+        <h1>No data yet — run a request!</h1> 
+        {% endif %}
+        
+        {% if users is defined %}
+        <table>
+            <tr>
+              <th>name</th>
+              <th>photo</th>
+              <th>bio</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+            {% for field in user %}
+            <td>{{ field }}</td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+      </section>
+    
+      <section class="admin">
+        <form action="/admin/requests/search_users" method="post">
+          <label for="term">Search Term</label> <br>
+          <input name="term" id="term" type="text" required> <br>
+  
+          <input type="submit" value="Submit">
+        </form>
+      </section>
+    </main>
+{% endblock %}    
