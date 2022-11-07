@@ -130,6 +130,24 @@ def get_parties():
     return {'pids': cursor.fetchall()}
 
 
+@app.route("/admin/location", methods=['GET'])
+def admin_location():
+    return render_template('admin/location.html')
+
+
+@app.route("/admin/location", methods=['POST'])
+def add_location():
+    coordinates = request.form['coordinates']
+    address = request.form['address']
+
+    cursor.execute(
+        "INSERT INTO Locations (coordinates, address) VALUES (%s, %s)",
+        (coordinates, address)
+    )
+    conn.commit()
+    return render_template('admin/location.html')
+
+
 @app.route("/admin/requests/get_messages_from_user", methods=['GET'])
 def get_messages_from_user_get():
     return render_template("/admin/requests/get_messages_from_user.html")
@@ -193,6 +211,45 @@ def get_ongoing_parties():
     cursor.execute(query)
     conn.commit()
     return render_template('/admin/requests/get_ongoing_parties.html', cur_date=cur_date, parties=cursor.fetchall())
+
+
+@app.route("/admin/requests/search_locations", methods=['GET'])
+def search_locations_get():
+    return render_template("/admin/requests/search_locations.html")
+
+
+@app.route("/admin/requests/search_locations", methods=['POST'])
+def search_locations():
+    term = request.form['term']
+
+    query = f"""
+    SELECT coordinates, address FROM Locations
+    WHERE coordinates LIKE '%{term}%'
+    OR address LIKE '%{term}%'
+    """
+
+    cursor.execute(query)
+    conn.commit()
+    return render_template('/admin/requests/search_locations.html', term=term, locations=cursor.fetchall())
+
+
+@app.route("/admin/requests/search_users", methods=['GET'])
+def search_users_get():
+    return render_template("/admin/requests/search_users.html")
+
+
+@app.route("/admin/requests/search_users", methods=['POST'])
+def search_users():
+    term = request.form['term']
+
+    query = f"""
+    SELECT name, photo, bio FROM Users
+    WHERE name LIKE '%{term}%'
+    """
+
+    cursor.execute(query)
+    conn.commit()
+    return render_template('/admin/requests/search_users.html', term=term, users=cursor.fetchall())
 
 
 if __name__ == "__main__":

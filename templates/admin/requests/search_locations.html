@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Search Locations{% endblock %}
+
+{% block content %}
+
+    <main>
+      <section class="admin">
+        {% if term is defined %}
+        <h1>Locations which coordinates or address contain “{{ term }}”</h1>
+        {% else %}
+        <h1>No data yet — run a request!</h1> 
+        {% endif %}
+        
+        {% if locations is defined %}
+        <table>
+            <tr>
+            <th>Coordinates</th>
+            <th>Address</th>
+            </tr>
+            {% for location in locations %}
+            <tr>
+            {% for field in location %}
+            <td>{{ field }}</td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+      </section>
+    
+      <section class="admin">
+        <form action="/admin/requests/search_locations" method="post">
+          <label for="term">Search Term</label> <br>
+          <input name="term" id="term" type="text" required> <br>
+  
+          <input type="submit" value="Submit">
+        </form>
+      </section>
+    </main>
+{% endblock %}    
