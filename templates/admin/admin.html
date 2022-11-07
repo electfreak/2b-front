@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Page{% endblock %}
+
+{% block content %}
+    <main>
+      <section class="admin">
+        <h2>Entities</h2>
+        <ul>
+          <li><a href="{{ url_for('admin_feedback') }}">Feedback</a></li>
+          <li><a href="{{ url_for('admin_user') }}">User</a></li>
+          <li><a href="{{ url_for('admin_message') }}">Message</a></li>
+          <li><a href="{{ url_for('admin_party') }}">Party</a></li>
+          <li><a href="{{ url_for('admin_location') }}">Location</a></li>
+
+        </ul>
+
+        <h2>Requests</h2>
+        <ul>
+          <li><a href="{{ url_for('get_feedbacks_by_party_get') }}">Get feedbacks by party</a></li>
+          <li><a href="{{ url_for('get_messages_from_user_get') }}">Get messages from user</a></li>
+          <li><a href="{{ url_for('get_ongoing_parties_get') }}">Get ongoing parties</a></li>
+          <li><a href="{{ url_for('search_locations') }}">Search locations</a></li>
+          <li><a href="{{ url_for('search_users') }}">Search users</a></li>
+        </ul>
+      </section>
+    </main>
+{% endblock %}    

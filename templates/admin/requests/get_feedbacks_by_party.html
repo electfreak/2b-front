@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Feedbacks by Party{% endblock %}
+
+{% block content %}
+    <main>
+      <section class="admin">
+        {% if party is defined %}
+        <h1>Feedbacks left about party “{{ party }}”</h1>
+        {% else %}
+        <h1>No data yet — run a request!</h1>
+        {% endif %}
+        
+        {% if feedbacks is defined %}
+        <table>
+          <tr>
+            <th>Rating</th>
+            <th>Text</th>
+          </tr>
+          {% for feedback in feedbacks %}
+          <tr>
+            {% for field in feedback %}
+            <td>{{ field }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </section>
+      <section class="admin">
+        <form action="/admin/requests/get_feedbacks_by_party" method="post">
+          <label for="pid">Party ID</label> <br>
+          <select name="pid" id="pid"></select> <br>
+  
+          <input type="submit" value="Submit">
+
+          <script>
+            var pid_select = document.getElementById("pid");
+
+            pid_select.onfocus = function()  {
+                fetch('/admin/parties').then(function(response) {
+                    response.json().then(function(data) {
+                        var optionHTML = '';
+
+                        for (var pid of data.pids) {
+                            optionHTML += '<option value="' + pid + '">' + pid + '</option>';
+                        }
+
+                        pid_select.innerHTML = optionHTML;
+                    })
+
+                });
+            }
+        </script>
+        </form>
+      </section>
+    </main>
+{% endblock %}    
