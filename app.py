@@ -69,25 +69,27 @@ def admin_user():
 def get_users():
     cursor.execute("select uid from Users")
     conn.commit()
-    return {'uids': cursor.fetchall()}
+    res = {'options': cursor.fetchall()}
+    print(res)
+    return res
 
 
 @app.route("/admin/messages", methods=['GET'])
-def get_users():
+def get_messages():
     cursor.execute("select mid from Messages")
     conn.commit()
     return {'options': cursor.fetchall()}
 
 
 @app.route("/admin/locations", methods=['GET'])
-def get_users():
+def get_locations():
     cursor.execute("select lid from Locations")
     conn.commit()
     return {'options': cursor.fetchall()}
 
 
 @app.route("/admin/tasks", methods=['GET'])
-def get_users():
+def get_tasks():
     cursor.execute("select tid from Tasks")
     conn.commit()
     return {'options': cursor.fetchall()}
