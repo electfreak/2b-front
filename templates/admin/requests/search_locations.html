@@ -20,9 +20,9 @@
             </tr>
             {% for location in locations %}
             <tr>
-            {% for field in location %}
-            <td>{{ field }}</td>
-            {% endfor %}
+              {% for field in ('coordinates', 'address') %}
+              <td><a href="/location?lid={{ location['lid'] }}">{{ location[field] }}</a></td>
+              {% endfor %}
             </tr>
             {% endfor %}
         </table>

@@ -20,12 +20,12 @@
               <th>bio</th>
             </tr>
             {% for user in users %}
-            <tr>
-            {% for field in user %}
-            <td>{{ field }}</td>
+          <tr>
+            {% for field in ('name', 'photo', 'bio') %}
+            <td><a href="/user?uid={{ user['uid'] }}">{{ user[field] }}</a></td>
             {% endfor %}
-            </tr>
-            {% endfor %}
+          </tr>
+          {% endfor %}
         </table>
         {% endif %}
       </section>

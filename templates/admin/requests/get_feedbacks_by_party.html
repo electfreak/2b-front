@@ -19,8 +19,8 @@
           </tr>
           {% for feedback in feedbacks %}
           <tr>
-            {% for field in feedback %}
-            <td>{{ field }}</td>
+            {% for field in ('rating', 'text') %}
+            <td><a href="/feedback?fid={{ feedback['fid'] }}">{{ feedback[field] }}</a></td>
             {% endfor %}
           </tr>
           {% endfor %}
@@ -42,7 +42,7 @@
                     response.json().then(function(data) {
                         var optionHTML = '';
 
-                        for (var pid of data.pids) {
+                        for (var pid of data.options) {
                             optionHTML += '<option value="' + pid + '">' + pid + '</option>';
                         }
 

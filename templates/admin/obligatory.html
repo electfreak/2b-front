@@ -19,12 +19,27 @@
     <form action="/admin/obligatory" method="post">
       <label for="tid">Task ID</label> <br>
       <select name="tid" id="tid"></select> <br>
+      <label for="tid">Party ID</label> <br>
+      <select name="pid" id="pid"></select> <br>
 
       <input type="submit" value="Submit">
       <script>
         fetch('/admin/tasks').then((response) => {
           response.json().then((data) => {
             document.getElementById("tid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+
+        fetch('/admin/parties').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("pid")
               .append(
                 ...data.options.map(opt => {
                   let optEl = document.createElement('option');

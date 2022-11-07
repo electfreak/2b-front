@@ -42,7 +42,7 @@
                     response.json().then(function(data) {
                         var optionHTML = '';
 
-                        for (var uid of data.uids) {
+                        for (var uid of data.options) {
                             optionHTML += '<option value="' + uid + '">' + uid + '</option>';
                         }
 

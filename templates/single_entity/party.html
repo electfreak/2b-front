@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Party #{{ pid }}{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Party #{{ pid }}</h1>
+
+    {% if party is defined %}
+    <table>
+        <tr>
+        {% for key in party[0].keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for value in party[0].values() %}
+        <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% endif %}
+
+    <section class="admin">
+
+    </section>
+</main>
+{% endblock %}

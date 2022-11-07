@@ -21,12 +21,12 @@
             <th>End Date</th>
             </tr>
             {% for party in parties %}
-            <tr>
-            {% for field in party %}
-            <td>{{ field }}</td>
+          <tr>
+            {% for field in ('pid', 'startDate', 'hasEnd', 'endDate') %}
+            <td><a href="/party?pid={{ party['pid'] }}">{{ party[field] }}</a></td>
             {% endfor %}
-            </tr>
-            {% endfor %}
+          </tr>
+          {% endfor %}
         </table>
         {% endif %}
       </section>

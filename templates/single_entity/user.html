@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Location #{{ lid }}{% endblock %}
+{% block title %}User #{{ uid }}{% endblock %}
 
 {% block content %}
 <main>
-    <h1>Location #{{ lid }}</h1>
+    <h1>User #{{ uid }}</h1>
 
-    {% if location is defined %}
+    {% if user is defined %}
     <table>
         <tr>
-        {% for key in location[0].keys() %}
+        {% for key in user[0].keys() %}
         <th>{{ key }}</th>
         {% endfor %}
         </tr>
         <tr>
-        {% for value in location[0].values() %}
+        {% for value in user[0].values() %}
         <td>{{ value }}</td>
         {% endfor %}
         </tr>

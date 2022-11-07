@@ -16,14 +16,29 @@
   </section>
 
   <section class="admin">
-    <form action="">
+    <form action="/admin/party_notification" method="post">
       <label for="mid">Message ID</label> <br>
       <select name="mid" id="mid"></select> <br>
+      <label for="pid">Party ID</label> <br>
+      <select name="pid" id="pid"></select> <br>
       <input type="submit" value="Submit">
       <script>
         fetch('/admin/messages').then((response) => {
           response.json().then((data) => {
             document.getElementById("mid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+
+        fetch('/admin/parties').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("pid")
               .append(
                 ...data.options.map(opt => {
                   let optEl = document.createElement('option');

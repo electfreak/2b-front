@@ -31,7 +31,24 @@
           <label for="end_time">End Time</label> <br>
           <input name="end_time" type="time" value="00:00"> <br>
           
+          <label for="lid">Location ID</label> <br>
+          <select name="lid" id="lid" required> </select> <br>
+
           <input type="submit" value="Submit">
+          <script>
+            fetch('/admin/locations').then((response) => {
+              response.json().then((data) => {
+                document.getElementById("lid")
+                  .append(
+                    ...data.options.map(opt => {
+                      let optEl = document.createElement('option');
+                      optEl.value = optEl.textContent = opt.toString();
+                      return optEl;
+                    })
+                  );
+              });
+            });
+          </script>
         </form>
       </section>
     </main>
