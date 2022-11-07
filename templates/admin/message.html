@@ -36,7 +36,7 @@
           response.json().then((data) => {
             document.getElementById("uid")
               .append(
-                ...data.uids.map(uid => {
+                ...data.options.map(uid => {
                   let opt = document.createElement('option');
                   opt.value = opt.innerHTML = uid.toString();
                   return opt;
