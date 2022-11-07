@@ -3,53 +3,49 @@
 {% block title %}Message{% endblock %}
 
 {% block content %}
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="/admin/message" method="post">
-          
-          <label for="text">Text</label> <br>
-          <input name="text" type="text" required> <br>
+  <section class="admin">
+    <form action="/admin/message" method="post">
 
-          <label for="uid">User ID</label> <br>
-          <select name="uid" id="uid" required></select> <br>
+      <label for="text">Text</label> <br>
+      <input name="text" type="text" required> <br>
 
-          <label for="date">Date</label> <br>
-          <input name="date" type="date" required> <br>
+      <label for="uid">User ID</label> <br>
+      <select name="uid" id="uid" required></select> <br>
 
-          <label for="time">Time</label> <br>
-          <input name="time" type="time" required> <br>
-          
-          <input type="submit" value="Submit">
+      <label for="date">Date</label> <br>
+      <input name="date" type="date" required> <br>
 
-          <script>
-            var uid_select = document.getElementById("uid");
+      <label for="time">Time</label> <br>
+      <input name="time" type="time" required> <br>
 
-            uid_select.onfocus = function()  {
-                fetch('/admin/users').then(function(response) {
-                    response.json().then(function(data) {
-                        var optionHTML = '';
+      <input type="submit" value="Submit">
 
-                        for (var uid of data.uids) {
-                            optionHTML += '<option value="' + uid + '">' + uid + '</option>';
-                        }
-
-                        uid_select.innerHTML = optionHTML;
-                    })
-
-                });
-            }
-        </script>
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+      <script>
+        fetch('/admin/users').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("uid")
+              .append(
+                ...data.uids.map(uid => {
+                  let opt = document.createElement('option');
+                  opt.value = opt.textContent = uid.toString();
+                  return opt;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}
