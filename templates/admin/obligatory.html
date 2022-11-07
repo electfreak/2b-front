@@ -28,11 +28,29 @@
       </section>
 
       <section class="admin">
-        <form action="">
+        <form action="/admin/obligatory" method="post">
           <label for="tid">Task ID</label> <br>
-          <input name="tid" type="number"> <br>
+          <select name="tid" id="tid"></select> <br>
           
           <input type="submit" value="Submit">
+          <script>
+            var tid_select = document.getElementById("tid");
+
+            tid_select.onfocus = function()  {
+                fetch('/admin/tasks').then(function(response) {
+                    response.json().then(function(data) {
+                        var optionHTML = '';
+
+                        for (var option of data.options) {
+                            optionHTML += '<option value="' + option + '">' + option + '</option>';
+                        }
+
+                        uid_select.innerHTML = optionHTML;
+                    })
+
+                });
+            }
+          </script>
         </form>
       </section>
     </main>

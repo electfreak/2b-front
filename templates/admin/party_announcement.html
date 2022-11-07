@@ -30,9 +30,27 @@
       <section class="admin">
         <form action="">
           <label for="mid">Message ID</label> <br>
-          <input name="mid" type="number"> <br>
+          <select name="mid" id="mid"></select> <br>
           
           <input type="submit" value="Submit">
+          <script>
+            var selecter = document.getElementById("mid");
+
+            selecter.onfocus = function()  {
+                fetch('/admin/messages').then(function(response) {
+                    response.json().then(function(data) {
+                        var optionHTML = '';
+
+                        for (var option of data.options) {
+                            optionHTML += '<option value="' + option + '">' + option + '</option>';
+                        }
+
+                        uid_select.innerHTML = optionHTML;
+                    })
+
+                });
+            }
+          </script>
         </form>
       </section>
     </main>
