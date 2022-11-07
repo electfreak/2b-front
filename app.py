@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 from flaskext.mysql import MySQL
+from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
 
@@ -19,7 +20,7 @@ mysql.init_app(app)
 # create connection to access data
 conn = mysql.connect()
 cursor = conn.cursor()
-
+dcursor = conn.cursor(DictCursor)
 
 @app.route("/")
 def main():
@@ -103,6 +104,26 @@ def add_message():
     return render_template('admin/message.html')
 
 
+@app.route("/message")
+def view_message():
+    if 'mid' not in request.args:
+        abort(404)
+    
+    mid = request.args['mid']
+
+    query = f"""
+    SELECT *
+    FROM Messages
+    JOIN Users ON Messages.uid = Users.uid
+    WHERE Messages.mid = {mid}
+    """
+
+    dcursor.execute(query)
+    conn.commit()
+    return render_template('single_entity/message.html', mid=mid, message=dcursor.fetchall())
+
+
+
 @app.route("/admin/party", methods=['GET'])
 def admin_party():
     return render_template('admin/party.html')
@@ -157,15 +178,15 @@ def get_messages_from_user():
     uid = request.form['uid']
 
     query = f"""
-    SELECT Messages.text, Messages.time
+    SELECT Messages.*
     FROM Messages, Users
     WHERE Messages.uid = Users.uid
     AND Users.uid = {uid}
     """
 
-    cursor.execute(query)
+    dcursor.execute(query)
     conn.commit()
-    return render_template('/admin/requests/get_messages_from_user.html', user=uid, messages=cursor.fetchall())
+    return render_template('/admin/requests/get_messages_from_user.html', user=uid, messages=dcursor.fetchall())
 
 
 @app.route("/admin/requests/get_feedbacks_by_party", methods=['GET'])

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Message #{{ mid }}{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Message #{{ mid }}</h1>
+
+    {% if message is defined %}
+    <table>
+        <tr>
+        {% for key in message[0].keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for value in message[0].values() %}
+        <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% endif %}
+
+    <section class="admin">
+
+    </section>
+</main>
+{% endblock %}

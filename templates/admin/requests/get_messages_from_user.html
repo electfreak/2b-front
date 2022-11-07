@@ -19,8 +19,8 @@
           </tr>
           {% for message in messages %}
           <tr>
-            {% for field in message %}
-            <td>{{ field }}</td>
+            {% for field in ('text', 'time') %}
+            <td><a href="/message?mid={{ message['mid'] }}">{{ message[field] }}</a></td>
             {% endfor %}
           </tr>
           {% endfor %}
