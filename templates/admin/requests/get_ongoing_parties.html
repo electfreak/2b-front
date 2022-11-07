@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Ongoing Parties{% endblock %}
+
+{% block content %}
+
+    <main>
+      <section class="admin">
+        {% if cur_date is defined %}
+        <h1>Parties that were happening at {{ cur_date }}</h1>
+        {% else %}
+        <h1>No data yet — run a request!</h1> 
+        {% endif %}
+        
+        {% if parties is defined %}
+        <table>
+            <tr>
+            <th>Party ID</th>
+            <th>Start Date</th>
+            <th>Has end?</th>
+            <th>End Date</th>
+            </tr>
+            {% for party in parties %}
+            <tr>
+            {% for field in party %}
+            <td>{{ field }}</td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+      </section>
+    
+      <section class="admin">
+        <form action="/admin/requests/get_ongoing_parties" method="post">
+          <label for="date">Date</label> <br>
+          <input name="date" id="date" type="date"> <br>
+
+          <label for="time">Time</label> <br>
+          <input name="time" id="time" type="time"> <br>
+  
+          <input type="submit" value="Submit">
+        </form>
+      </section>
+    </main>
+{% endblock %}    
