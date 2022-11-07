@@ -3,27 +3,54 @@
 {% block title %}Party to Urgent Tasks{% endblock %}
 
 {% block content %}
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="">
-          <label for="pid">Party ID</label> <br>
-          <input name="pid" type="number"> <br>
-          
-          <label for="utid">Urgent task ID</label> <br>
-          <input name="utid" type="number"> <br>
-          
-          <input type="submit" value="Submit">
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+  <section class="admin">
+    <form action="">
+      <label for="pid">Party ID</label> <br>
+      <input name="pid" type="number"> <br>
+
+      <label for="utid">Urgent task ID</label> <br>
+      <input name="utid" type="number"> <br>
+
+      <input type="submit" value="Submit">
+      <script>
+        fetch('/admin/parties').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("pid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+        
+        fetch('/admin/urgents').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("utid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}

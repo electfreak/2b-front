@@ -9,11 +9,39 @@
     <form action="">
       <label for="pid">Party ID</label> <br>
       <input name="pid" type="number"> <br>
-      
+
       <label for="fid">Feedback ID</label> <br>
       <input name="fid" type="number"> <br>
-      
+
       <input type="submit" value="Submit">
+
+      <script>
+        fetch('/admin/feedbacks').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("fid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+
+        fetch('/admin/parties').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("pid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
     </form>
   </section>
 </main>
