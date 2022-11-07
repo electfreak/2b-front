@@ -4,30 +4,45 @@
 
 {% block content %}
 
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="">
-          <label for="number">Room Number</label> <br>
-          <input name="number" type="text" required> <br>
+  <section class="admin">
+    <form action="">
+      <label for="number">Room Number</label> <br>
+      <input name="number" type="text" required> <br>
 
-          <label for="building">Building</label> <br>
-          <input name="building" type="text" required> <br>
+      <label for="building">Building</label> <br>
+      <input name="building" type="text" required> <br>
 
-          <label for="lid">Location ID</label> <br>
-          <input name="lid" type="number" required> <br>
-          
-          <input type="submit" value="Submit">
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+      <label for="lid">Location ID</label> <br>
+      <input name="lid" type="number" required> <br>
+
+      <input type="submit" value="Submit">
+
+      <script>
+        fetch('/admin/locations').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("lid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}

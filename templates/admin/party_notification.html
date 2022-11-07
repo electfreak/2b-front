@@ -4,41 +4,37 @@
 
 {% block content %}
 
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="">
-          <label for="mid">Message ID</label> <br>
-          <select name="mid" id="mid"></select> <br>
-          <input type="submit" value="Submit">
-          <script>
-            var selecter = document.getElementById("mid");
-
-            selecter.onfocus = function()  {
-                fetch('/admin/messages').then(function(response) {
-                    response.json().then(function(data) {
-                        var optionHTML = '';
-
-                        for (var option of data.options) {
-                            optionHTML += '<option value="' + option + '">' + option + '</option>';
-                        }
-
-                        selecter.innerHTML = optionHTML;
-                    })
-
-                });
-            }
-          </script>
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+  <section class="admin">
+    <form action="">
+      <label for="mid">Message ID</label> <br>
+      <select name="mid" id="mid"></select> <br>
+      <input type="submit" value="Submit">
+      <script>
+        fetch('/admin/messages').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("mid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}
