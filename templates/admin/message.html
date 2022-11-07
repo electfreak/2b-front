@@ -31,25 +31,21 @@
 
       <input type="submit" value="Submit">
 
-          <script>
-            var uid_select = document.getElementById("uid");
-
-            uid_select.onfocus = function()  {
-                fetch('/admin/users').then(function(response) {
-                    response.json().then(function(data) {
-                        var optionHTML = '';
-
-                        for (var uid of data.uids) {
-                            optionHTML += '<option value="' + uid + '">' + uid + '</option>';
-                        }
-
-                        uid_select.innerHTML = optionHTML;
-                    })
-
-                });
-            }
-        </script>
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+      <script>
+        fetch('/admin/users').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("uid")
+              .append(
+                ...data.options.map(uid => {
+                  let opt = document.createElement('option');
+                  opt.value = opt.innerHTML = uid.toString();
+                  return opt;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}
