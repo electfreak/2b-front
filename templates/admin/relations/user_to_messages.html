@@ -4,27 +4,54 @@
 
 {% block content %}
 
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="">
-          <label for="uid">User ID</label> <br>
-          <input name="uid" type="number"> <br>
-          
-          <label for="mid">Message ID</label> <br>
-          <input name="mid" type="number"> <br>
-          
-          <input type="submit" value="Submit">
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+  <section class="admin">
+    <form action="">
+      <label for="uid">User ID</label> <br>
+      <select name="uid" required> <br>
+
+      <label for="mid">Message ID</label> <br>
+      <select name="mid" required> <br>
+
+      <input type="submit" value="Submit">
+      <script>
+        fetch('/admin/users').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("uid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+
+        fetch('/admin/messages').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("mid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}

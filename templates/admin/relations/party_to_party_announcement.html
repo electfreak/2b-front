@@ -3,28 +3,55 @@
 {% block title %}Pary to Party Announcement{% endblock %}
 
 {% block content %}
-{% endblock %}    
-    <main>
-      <section class="profile">
-        <div>
-          Your profile
-        </div>
+{% endblock %}
+<main>
+  <section class="profile">
+    <div>
+      Your profile
+    </div>
 
-        <button class="btn">
-          Post party
-        </button>
-      </section>
+    <button class="btn">
+      Post party
+    </button>
+  </section>
 
-      <section class="admin">
-        <form action="">
-          <label for="pid">Party ID</label> <br>
-          <input name="pid" type="number"> <br>
-          
-          <label for="paid">Party Annoncement ID</label> <br>
-          <input name="paid" type="number"> <br>
-          
-          <input type="submit" value="Submit">
-        </form>
-      </section>
-    </main>
-{% endblock %}    
+  <section class="admin">
+    <form action="">
+      <label for="pid">Party ID</label> <br>
+      <select name="pid" required> <br>
+
+      <label for="paid">Party Annoncement ID</label> <br>
+      <select name="paid" required> <br>
+
+      <input type="submit" value="Submit">
+      <script>
+        fetch('/admin/parties').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("pid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+
+        fetch('/admin/announcements').then((response) => {
+          response.json().then((data) => {
+            document.getElementById("paid")
+              .append(
+                ...data.options.map(opt => {
+                  let optEl = document.createElement('option');
+                  optEl.value = optEl.textContent = opt.toString();
+                  return optEl;
+                })
+              );
+          });
+        });
+      </script>
+    </form>
+  </section>
+</main>
+{% endblock %}
