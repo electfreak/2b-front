@@ -10,7 +10,7 @@ mysql = MySQL()
 # default user of MySQL to be replaced with appropriate username
 app.config['MYSQL_DATABASE_USER'] = 'group25'
 app.config[
-    'MYSQL_DATABASE_PASSWORD'] = 'buzzers228'  # default passwrod of MySQL to be replaced with appropriate password
+    'MYSQL_DATABASE_PASSWORD'] = 'buzers228'  # default passwrod of MySQL to be replaced with appropriate password
 # Database name to be replaced with appropriate database name
 app.config['MYSQL_DATABASE_DB'] = 'group25'
 app.config[
