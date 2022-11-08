@@ -103,6 +103,27 @@ def add_urgent():
     return render_template("/admin/urgent.html")
 
 
+@app.route("/admin/room", methods=['GET'])
+def admin_room():
+    return render_template('admin/room.html')
+
+@app.route("/admin/room", methods=['POST'])
+def add_room():
+    number = request.form['number']
+    building = request.form['building']
+    lid = request.form['lid']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO Rooms (number, building, lid) VALUES ( %s, %s, %s)",
+        (number, building, lid)
+    )
+    conn.commit()
+    return render_template("/admin/room.html")
+
+
+
 @app.route("/admin/party_notification", methods=['GET'])
 def admin_party_notification():
     return render_template('admin/party_notification.html')
