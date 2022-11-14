@@ -8,9 +8,9 @@ mysql = MySQL()
 
 # configuring MySQL for the web application
 # default user of MySQL to be replaced with appropriate username
-app.config['MYSQL_DATABASE_USER'] = 'group25'
+app.config['MYSQL_DATABASE_USER'] = 'group25admin'
 app.config[
-    'MYSQL_DATABASE_PASSWORD'] = 'buzers228'  # default passwrod of MySQL to be replaced with appropriate password
+    'MYSQL_DATABASE_PASSWORD'] = 'MoveSent'  # default passwrod of MySQL to be replaced with appropriate password
 # Database name to be replaced with appropriate database name
 app.config['MYSQL_DATABASE_DB'] = 'group25'
 app.config[
@@ -41,12 +41,22 @@ def admin_feedback():
 
 @app.route("/admin/feedback", methods=['POST'])
 def add_feedback():
+    login = request.form['login']
+    password = request.form['password']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
     mid = request.form['mid']
     pid = request.form['pid']
     rating = request.form['rating']
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO Feedbacks (mid, pid, rating) VALUES (%s, %s, %s)",
         (mid, pid, rating)
@@ -64,11 +74,21 @@ def admin_obligatory():
 
 @app.route("/admin/obligatory", methods=['POST'])
 def add_obligatory():
-    tid = request.form['tid']
-    pid = request.form['pid']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    tid = request.form['tid']
+    pid = request.form['pid']
+
     cursor.execute(
         "INSERT INTO ObligatoryTasks (tid) VALUES ( %s)",
         (tid)
@@ -86,11 +106,21 @@ def admin_urgent():
 
 @app.route("/admin/urgent", methods=['POST'])
 def add_urgent():
-    tid = request.form['tid']
-    pid = request.form['pid']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    tid = request.form['tid']
+    pid = request.form['pid']
+
     cursor.execute(
         "INSERT INTO UrgentTasks (tid) VALUES ( %s)",
         (tid)
@@ -109,12 +139,22 @@ def admin_room():
 
 @app.route("/admin/room", methods=['POST'])
 def add_room():
+    login = request.form['login']
+    password = request.form['password']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
     number = request.form['number']
     building = request.form['building']
     lid = request.form['lid']
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO Rooms (number, building, lid) VALUES ( %s, %s, %s)",
         (number, building, lid)
@@ -130,11 +170,21 @@ def admin_party_notification():
 
 @app.route("/admin/party_notification", methods=['POST'])
 def add_party_notification():
-    mid = request.form['mid']
-    pid = request.form['pid']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    mid = request.form['mid']
+    pid = request.form['pid']
+
     cursor.execute(
         "INSERT INTO PartyNotifications (mid) VALUES ( %s)",
         (mid)
@@ -153,11 +203,21 @@ def admin_party_announcement():
 
 @app.route("/admin/party_announcement", methods=['POST'])
 def add_party_announcement():
-    mid = request.form['mid']
-    pid = request.form['pid']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    mid = request.form['mid']
+    pid = request.form['pid']
+
     cursor.execute(
         "INSERT INTO PartyAnnouncements (mid) VALUES ( %s)",
         (mid)
@@ -260,13 +320,22 @@ def get_feedbacks():
 
 @app.route("/admin/user", methods=['POST'])
 def add_user():
-    print(request.form)
+    login = request.form['login']
+    password = request.form['password']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
 
     name = request.form['name']
     bio = request.form['bio']
     photo = request.form['photo']
-    conn = mysql.connect()
-    cursor = conn.cursor()
+    
     cursor.execute(
         "INSERT INTO Users (name, photo, bio) VALUES (%s, %s, %s)",
         (name, photo, bio))
@@ -281,12 +350,23 @@ def admin_message():
 
 @app.route("/admin/message", methods=['POST'])
 def add_message():
+    login = request.form['login']
+    password = request.form['password']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+
     uid = request.form['uid']
     text = request.form['text']
     date = request.form['date']
     time = request.form['time']
-    conn = mysql.connect()
-    cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO Messages (uid, text, time) VALUES (%s, %s, %s)",
         (uid, text, f'{date} {time}'))
@@ -301,9 +381,19 @@ def admin_task():
 
 @app.route("/admin/task", methods=['POST'])
 def add_task():
-    text = request.form['text']
+    login = request.form['login']
+    password = request.form['password']
+
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    text = request.form['text']
     cursor.execute(
         "INSERT INTO Tasks (text) VALUES (%s)",
         (text))
@@ -420,6 +510,18 @@ def admin_party():
 
 @app.route("/admin/party", methods=['POST'])
 def add_party():
+    login = request.form['login']
+    password = request.form['password']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+    
     start_date = request.form['start_date']
     start_time = request.form['start_time']
     has_end = '1' if 'has_end' in request.form else '0'
@@ -427,8 +529,6 @@ def add_party():
     end_time = request.form['end_time']
     lid = request.form['lid']
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO Parties (startDate, hasEnd, endDate) VALUES (%s, %s, %s)",
         (f'{start_date} {start_time}', has_end, f'{end_date} {end_time}'))
@@ -456,11 +556,21 @@ def admin_location():
 
 @app.route("/admin/location", methods=['POST'])
 def add_location():
-    coordinates = request.form['coordinates']
-    address = request.form['address']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    coordinates = request.form['coordinates']
+    address = request.form['address']
+
     cursor.execute(
         "INSERT INTO Locations (coordinates, address) VALUES (%s, %s)",
         (coordinates, address)
@@ -590,11 +700,21 @@ def admin_party_to_feedback():
 
 @app.route("/admin/relations/party_to_feedback", methods=['POST'])
 def add_party_to_feedback():
-    pid = request.form['pid']
-    fid = request.form['fid']
+    login = request.form['login']
+    password = request.form['password']
 
     conn = mysql.connect()
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM Accounts WHERE login = %s AND password = %s', (login, password,))
+    account = cursor.fetchone()
+
+    if not account:
+        return "Account with such login and password was not found", 401
+
+    pid = request.form['pid']
+    fid = request.form['fid']
+
     cursor.execute(
         "INSERT INTO PartyToFeedback (pid, fid) VALUES (%s, %s)",
         (pid, fid)
@@ -604,4 +724,4 @@ def add_party_to_feedback():
 
 
 if __name__ == "__main__":
-    app.run(port=12354, host="10.72.1.14")
+    app.run(port=12354, host="0.0.0.0")

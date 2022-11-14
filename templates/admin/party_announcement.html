@@ -20,6 +20,13 @@
       <select name="mid" id="mid"></select> <br>
       <label for="pid">Party ID</label> <br>
       <select name="pid" id="pid"></select> <br>
+
+      <label for="login">Login</label> <br>
+      <input name="login" type="text" required> <br>
+
+      <label for="password">Password</label> <br>
+      <input name="password" type="text" required> <br>
+
       <input type="submit" value="Submit">
       <script>
         fetch('/admin/messages').then((response) => {
