@@ -31,7 +31,7 @@ def get_all_users():
     
     return [x['name'] for x in cursor.fetchall()]
 
-def get_all_locations():
+def get_all_addresses():
     query = f"""
     SELECT address FROM Locations
     """
@@ -42,6 +42,18 @@ def get_all_locations():
     conn.commit()
     
     return [x['address'] for x in cursor.fetchall()]
+
+def get_all_coordinates():
+    query = f"""
+    SELECT coordinates FROM Locations
+    """
+
+    conn = mysql.connect()
+    cursor = conn.cursor(DictCursor)
+    cursor.execute(query)
+    conn.commit()
+    
+    return [x['coordinates'] for x in cursor.fetchall()]
 
 @app.route("/")
 def main():
@@ -684,7 +696,8 @@ def get_ongoing_parties():
 @app.route("/admin/requests/search_locations", methods=['GET'])
 def search_locations_get():
     tags = {
-        'locations': get_all_locations()
+        'addresses': get_all_addresses(),
+        'coordinates': get_all_coordinates()
     }
 
     return render_template("/admin/requests/search_locations.html", tags=tags)
@@ -695,7 +708,8 @@ def search_locations():
     term = request.form['term']
 
     tags = {
-        'locations': get_all_locations()
+        'addresses': get_all_addresses(),
+        'coordinates': get_all_coordinates()
     }
 
     query = f"""
