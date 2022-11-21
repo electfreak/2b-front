@@ -37,5 +37,16 @@
           <input type="submit" value="Submit">
         </form>
       </section>
+      <script>
+        var location_options = {{ tags.locations | tojson }}
+        $( "#term" ).autocomplete({
+          source: function( request, response ) {
+                  var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+                  response( $.grep( location_options, function( item ){
+                      return matcher.test( item );
+                  }) );
+              }
+        });
+      </script>
     </main>
 {% endblock %}    

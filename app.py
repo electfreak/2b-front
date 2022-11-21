@@ -19,6 +19,30 @@ app.config[
 mysql.init_app(app)
 # create connection to access data
 
+def get_all_users():
+    query = f"""
+    SELECT name FROM Users
+    """
+
+    conn = mysql.connect()
+    cursor = conn.cursor(DictCursor)
+    cursor.execute(query)
+    conn.commit()
+    
+    return [x['name'] for x in cursor.fetchall()]
+
+def get_all_locations():
+    query = f"""
+    SELECT address FROM Locations
+    """
+
+    conn = mysql.connect()
+    cursor = conn.cursor(DictCursor)
+    cursor.execute(query)
+    conn.commit()
+    
+    return [x['address'] for x in cursor.fetchall()]
+
 @app.route("/")
 def main():
     return render_template('index.html')
@@ -581,24 +605,31 @@ def add_location():
 
 @app.route("/admin/requests/get_messages_from_user", methods=['GET'])
 def get_messages_from_user_get():
-    return render_template("/admin/requests/get_messages_from_user.html")
+    tags = {
+        'users': get_all_users()
+    }
+    return render_template("/admin/requests/get_messages_from_user.html", tags=tags)
 
 @app.route("/admin/requests/get_messages_from_user", methods=['POST'])
 def get_messages_from_user():
-    uid = request.form['uid']
+    name = request.form['username']
+
+    tags = {
+        'users': get_all_users()
+    }
 
     query = f"""
     SELECT Messages.*
     FROM Messages, Users
     WHERE Messages.uid = Users.uid
-    AND Users.uid = {uid}
+    AND Users.name = '{name}'
     """
 
     conn = mysql.connect()
     cursor = conn.cursor(DictCursor)
     cursor.execute(query)
     conn.commit()
-    return render_template('/admin/requests/get_messages_from_user.html', user=uid, messages=cursor.fetchall())
+    return render_template('/admin/requests/get_messages_from_user.html', user=name, messages=cursor.fetchall(), tags=tags)
 
 
 @app.route("/admin/requests/get_feedbacks_by_party", methods=['GET'])
@@ -652,12 +683,20 @@ def get_ongoing_parties():
 
 @app.route("/admin/requests/search_locations", methods=['GET'])
 def search_locations_get():
-    return render_template("/admin/requests/search_locations.html")
+    tags = {
+        'locations': get_all_locations()
+    }
+
+    return render_template("/admin/requests/search_locations.html", tags=tags)
 
 
 @app.route("/admin/requests/search_locations", methods=['POST'])
 def search_locations():
     term = request.form['term']
+
+    tags = {
+        'locations': get_all_locations()
+    }
 
     query = f"""
     SELECT lid, coordinates, address FROM Locations
@@ -669,17 +708,26 @@ def search_locations():
     cursor = conn.cursor(DictCursor)
     cursor.execute(query)
     conn.commit()
-    return render_template('/admin/requests/search_locations.html', term=term, locations=cursor.fetchall())
+    return render_template('/admin/requests/search_locations.html', term=term, locations=cursor.fetchall(), tags=tags)
 
 
 @app.route("/admin/requests/search_users", methods=['GET'])
 def search_users_get():
-    return render_template("/admin/requests/search_users.html")
+
+    tags = {
+        'users': get_all_users()
+    }
+
+    return render_template("/admin/requests/search_users.html", tags=tags)
 
 
 @app.route("/admin/requests/search_users", methods=['POST'])
 def search_users():
     term = request.form['term']
+
+    tags = {
+        'users': get_all_users()
+    }
 
     query = f"""
     SELECT uid, name, photo, bio FROM Users
@@ -690,7 +738,8 @@ def search_users():
     cursor = conn.cursor(DictCursor)
     cursor.execute(query)
     conn.commit()
-    return render_template('/admin/requests/search_users.html', term=term, users=cursor.fetchall())
+
+    return render_template('/admin/requests/search_users.html', term=term, users=cursor.fetchall(), tags=tags)
 
 
 @app.route("/admin/relations/party_to_feedback", methods=['GET'])
@@ -721,6 +770,10 @@ def add_party_to_feedback():
     )
     conn.commit()
     return render_template('admin/relations/party_to_feedback.html')
+
+@app.route("/ac_test")
+def ac_test():
+    return render_template('ac_test.html', tags={'users': get_all_users()})
 
 
 if __name__ == "__main__":

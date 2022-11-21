@@ -29,29 +29,22 @@
       </section>
       <section class="admin">
         <form action="/admin/requests/get_messages_from_user" method="post">
-          <label for="uid">User ID</label> <br>
-          <select name="uid" id="uid"></select> <br>
+          <label for="username">User name</label> <br>
+          <input name="username" id="username" type="text" required></select> <br>
   
           <input type="submit" value="Submit">
 
           <script>
-            var uid_select = document.getElementById("uid");
-
-            uid_select.onfocus = function()  {
-                fetch('/admin/users').then(function(response) {
-                    response.json().then(function(data) {
-                        var optionHTML = '';
-
-                        for (var uid of data.options) {
-                            optionHTML += '<option value="' + uid + '">' + uid + '</option>';
-                        }
-
-                        uid_select.innerHTML = optionHTML;
-                    })
-
-                });
-            }
-        </script>
+            var user_options = {{ tags.users | tojson }}
+            $( "#username" ).autocomplete({
+              source: function( request, response ) {
+                      var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+                      response( $.grep( user_options, function( item ){
+                          return matcher.test( item );
+                      }) );
+                  }
+            });
+          </script>
         </form>
       </section>
     </main>

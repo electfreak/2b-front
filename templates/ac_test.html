@@ -38,16 +38,17 @@
           <input type="submit" value="Submit">
         </form>
         <script>
-          var user_options = {{ tags.users | tojson }}
+          var users = {{ tags.users | tojson }}
           $( "#term" ).autocomplete({
             source: function( request, response ) {
                     var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-                    response( $.grep( user_options, function( item ){
+                    response( $.grep( users, function( item ){
                         return matcher.test( item );
                     }) );
                 }
           });
         </script>
+           
       </section>
     </main>
 {% endblock %}    
