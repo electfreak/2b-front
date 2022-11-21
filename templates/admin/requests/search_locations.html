@@ -38,7 +38,9 @@
         </form>
       </section>
       <script>
-        var location_options = {{ tags.locations | tojson }}
+        var coordinatinate_options = {{ tags.coordinates | tojson }}
+        var address_options = {{ tags.addresses | tojson }}
+        var location_options = coordinatinate_options.concat(address_options)
         $( "#term" ).autocomplete({
           source: function( request, response ) {
                   var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
