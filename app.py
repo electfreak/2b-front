@@ -789,6 +789,23 @@ def add_party_to_feedback():
 def ac_test():
     return render_template('ac_test.html', tags={'users': get_all_users()})
 
+@app.route("/get_users_term")
+def get_users_term():
+    term = request.args["term"]
+
+    query = f"""
+    SELECT name FROM Users
+    WHERE name LIKE '%{term}%'
+    """
+
+    conn = mysql.connect()
+    cursor = conn.cursor(DictCursor)
+    cursor.execute(query)
+    conn.commit()
+
+
+    return {"users": [x['name'] for x in cursor.fetchall()]}
+
 
 if __name__ == "__main__":
     app.run(port=12354, host="0.0.0.0")

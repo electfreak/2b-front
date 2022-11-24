@@ -33,18 +33,34 @@
       <section class="admin">
         <form action="/admin/requests/search_users" method="post">
           <label for="term">Search Term</label> <br>
+
+
+          <a id="test"></a>
           <input name="term" id="term" type="text" required> <br>
   
           <input type="submit" value="Submit">
         </form>
         <script>
           var users = {{ tags.users | tojson }}
+
+          document.getElementById("term").onkeydown = function (ev) {
+            $.ajax({
+                url: "{{url_for('get_users_term')}}",
+                type: 'GET',
+                dataType: 'json', // added data type
+                data: {
+                  'term': document.getElementById("term").value
+                },
+                success: function(res) {
+                  users = res['users'];
+                }
+            });
+          }
+
           $( "#term" ).autocomplete({
             source: function( request, response ) {
                     var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-                    response( $.grep( users, function( item ){
-                        return matcher.test( item );
-                    }) );
+                    response( users );
                 }
           });
         </script>
