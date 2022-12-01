@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, abort
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
+import requests
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ app.config[
 # initialise mySQL
 mysql.init_app(app)
 # create connection to access data
+
+ip_info_token = "f78203537e6d2e"
 
 def get_all_users():
     query = f"""
@@ -805,6 +808,30 @@ def get_users_term():
 
 
     return {"users": [x['name'] for x in cursor.fetchall()]}
+
+@app.route("/map")
+def display_location():
+    ip = request.remote_addr
+
+    request_url = f"http://ipinfo.io/{ip}?token={ip_info_token}" 
+
+    r = requests.get(
+        request_url
+    )
+
+    if 'bogon' in r.json() and r.json()['bogon']:
+        r = requests.get("https://api.ipify.org?format=json")
+        ip = r.json()['ip']
+
+        request_url = f"http://ipinfo.io/{ip}?token={ip_info_token}" 
+        r = requests.get(
+            request_url
+        )
+
+
+    user_coords = r.json()['loc']
+
+    return render_template('map.html', user_coords=user_coords, user_ip=ip)
 
 
 if __name__ == "__main__":
